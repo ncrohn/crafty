@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  div.header
+    h1 Crafty
+    h2 A Minecraft Server Manager
+
+  div.content
+    table.pure-table.pure-table-horizontal
+      thead
+        tr
+          th #
+          th Name
+          th IP
+          th Players
+          th Status
+          th 
+      tbody
+        each server, index in droplets
+          tr(data-id=server.id)
+            td= index+1
+            td= server.name
+            td= server.ip_address
+            td= 0
+            td= server.status
+            td
+              if server.status == 'off'
+                button Start

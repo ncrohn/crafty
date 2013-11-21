@@ -1,0 +1,29 @@
+doctype 5
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+    title= title
+
+    link(rel="stylesheet", href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css")
+    link(rel='stylesheet', href='/css/layouts/side-menu.css')
+
+    script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+
+  body
+    div#layout
+      a#menuLink.pure-menu-link(href="#menu")
+        span
+      div#menu
+        div.pure-menu.pure-menu-open
+          a.pure-menu-heading(href="/") Crafty
+          ul
+            li.pure-menu-selected
+              a(href="/") Servers
+
+      div#main
+        block content
+
+    script(src="js/ui.js")
+    script(src="js/app.js")
