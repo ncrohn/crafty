@@ -3,6 +3,16 @@ var keys = require('../keys.json');
 
 var ec2 = new AWS.EC2(keys);
 
+var servers = {};
+
+function getInstancePlayers(instanceId) {
+  if (servers.hasOwnProperty(instanceId)) {
+    return servers[instanceId].players;
+  }
+
+  return 0;
+}
+
 function getValue(hashes, key) {
   for(var i=0;i<hashes.length;i++) {
     if(hashes[i].Key === key) {
@@ -37,7 +47,8 @@ exports.index = function(req, res){
             id: inst.InstanceId,
             name: getValue(inst.Tags, 'Name'),
             ip_address: inst.PublicIpAddress,
-            status: inst.State.Name
+            status: inst.State.Name,
+            players: getInstancePlayers(inst.InstanceId)
           };
 
           instances.push(instance);
@@ -62,5 +73,22 @@ exports.start = function(req, res) {
       res.send(200);
     }
   });
+
+};
+
+exports.players = function(req, res) {
+
+  var id = req.params.serverId;
+  var data = req.body;
+
+  if (servers.hasOwnProperty(id)) {
+    servers[id].players = data.players;
+  } else {
+    servers[id] = {
+      players: data.players
+    };
+  }
+
+  res.send(200);
 
 };
